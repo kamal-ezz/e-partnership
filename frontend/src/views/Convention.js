@@ -114,7 +114,11 @@ function Convention({ match }) {
       <tbody>
         {conventions.map((convention) => (
           <tr key={convention.id}>
-            <td>{convention.titre}</td>
+            <td>
+              <Link to={`/convention/${convention.id}`}>
+                {convention.titre}{" "}
+              </Link>
+            </td>
             <td>
               <Badge variant="primary">{convention.etat}</Badge>
             </td>

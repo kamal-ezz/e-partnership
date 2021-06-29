@@ -18,6 +18,7 @@ import EditFinal from "../components/EditConvention/EditFinal";
 
 import EditProfile from "./EditProfile";
 import { useStoreState } from "easy-peasy";
+import ConventionDetails from "./ConventionDetails";
 
 function Home() {
   const token = useStoreState((state) => state.userToken);
@@ -32,6 +33,7 @@ function Home() {
           <Col md={9}>
             <Switch>
               <Route path="/conventions" component={Convention} />
+              <Route path="/convention/:id" component={ConventionDetails} />
               <Route path="/search/:keyword" component={Convention} />
               <Route path="/activities" component={Activity} />
               <Route path="/profile" component={Profile} />
