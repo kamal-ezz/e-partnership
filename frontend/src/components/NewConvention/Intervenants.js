@@ -11,6 +11,7 @@ function Intervenants() {
   const [email, setEmail] = useState("");
   const [sign, setSign] = useState(null);
   const [intervenants, setIntervenants] = useState([]);
+  const [formData, setFormData] = useState([]);
   const API_URL = "http://localhost:8000";
   const token = useStoreState((state) => state.userToken);
   const config = {
@@ -24,11 +25,20 @@ function Intervenants() {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post(
+      /*const { data } = await axios.post(
         API_URL + "/api/intervenants/",
         intervenants,
         config
-      );
+      );*/
+
+      let fData;
+      for (fData of formData) {
+        const { data } = await axios.post(
+          API_URL + "/api/upload/signature",
+          fData,
+          config
+        );
+      }
     } catch (err) {
       console.log(err);
     }
@@ -47,7 +57,7 @@ function Intervenants() {
       },
     });
 
-    //console.log(intervenants);
+    console.log(intervenants);
   };
 
   const imageHandler = (e) => {
@@ -62,7 +72,11 @@ function Intervenants() {
       const form = document.querySelector("#r");
       let data = new FormData(form);
 
-      data.append("signature", sign, sign.name);
+      data.append("convention", location.state.id);
+
+      if (sign) {
+        data.append("signature", sign, sign.name);
+      }
 
       let serializedData = {};
 
@@ -70,13 +84,12 @@ function Intervenants() {
         serializedData[key] = value;
       }
 
-      serializedData.convention = location.state.id;
+      //serializedData.convention = location.state.id;
       //serializedData.signature = sign;
 
-      console.log(serializedData);
-
       setIntervenants([...intervenants, serializedData]);
-
+      setFormData([...formData, data]);
+      //setFormData(data);
       //console.log(location.state.articles);
     }
   };
