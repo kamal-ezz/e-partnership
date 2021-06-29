@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useStoreState } from "easy-peasy";
 import {
   Navbar,
@@ -8,10 +8,21 @@ import {
   Container,
   Nav,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 function Header() {
   const token = useStoreState((state) => state.userToken);
+  const [keyword, setKeyword] = useState("");
+  const history = useHistory();
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (keyword.trim()) {
+      history.push(`/search/${keyword}`);
+    } else {
+      history.push("/");
+    }
+  };
 
   return (
     <header>
@@ -33,13 +44,18 @@ function Header() {
                   <Nav.Link href="/membres">Membres</Nav.Link>
                 </Nav>
 
-                <Form inline className="ml-auto">
+                <Form inline className="ml-auto" onSubmit={submitHandler}>
                   <FormControl
                     type="text"
-                    placeholder="Search"
-                    className="mr-sm-2"
+                    name="keyword"
+                    onChange={(e) => setKeyword(e.target.value)}
+                    placeholder="Rechercher des conventions..."
+                    className="mr-sm-2 ml-sm-5"
+                    style={{ width: 250 }}
                   />
-                  <Button variant="outline-primary">Search</Button>
+                  <Button type="submit" variant="outline-primary">
+                    Rechercher
+                  </Button>
                 </Form>
               </>
             )}

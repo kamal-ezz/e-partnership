@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import ActivitySerializer, ArticleSerializer, ConventionSerializer, IntervenantSerializer
 from .models import Activity, Article, Convention, Intervenant
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, generics
 from rest_framework.response import Response
 import json
 
@@ -61,6 +61,19 @@ class UploadSignature(APIView):
             return Response(posts_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ConventionsList(generics.ListAPIView):
+    serializer_class = ConventionSerializer
+
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = Convention.objects.all()
+        keyword = self.request.query_params.get('keyword')
+        if keyword is not None:
+            queryset = queryset.filter(titre=keyword)
+        return queryset
 
 
 class ConventionsWithMeIncluded(APIView):

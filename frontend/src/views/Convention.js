@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import jsPDF from "jspdf";
 
-function Convention() {
+function Convention({ match }) {
   const [conventions, setConventions] = useState([
     /*
      {
@@ -36,6 +36,7 @@ function Convention() {
 
   const API_URL = "http://localhost:8000";
   const token = useStoreState((state) => state.userToken);
+  const keyword = match.params.keyword;
 
   useEffect(() => {
     const fetchConventions = async () => {
@@ -47,8 +48,19 @@ function Convention() {
       };
 
       try {
-        const { data } = await axios.get(API_URL + "/api/conventions/", config);
-        setConventions(data);
+        if (keyword) {
+          const { data } = await axios.get(
+            API_URL + `/api/search?keyword=${keyword}`,
+            config
+          );
+          setConventions(data);
+        } else {
+          const { data } = await axios.get(
+            API_URL + `/api/conventions`,
+            config
+          );
+          setConventions(data);
+        }
       } catch (err) {
         console.log(err);
       }

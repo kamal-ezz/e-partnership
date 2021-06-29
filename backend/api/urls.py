@@ -1,4 +1,4 @@
-from .views import ActivityViewSet, ArticleViewSet, ConventionViewSet, IntervenantViewSet, ConventionsWithMeIncluded, UploadSignature
+from .views import ActivityViewSet, ArticleViewSet, ConventionViewSet, ConventionsList, IntervenantViewSet, ConventionsWithMeIncluded, UploadSignature
 from django.db import router
 from django.urls import path
 from rest_framework.routers import SimpleRouter
@@ -11,7 +11,8 @@ router.register('activities', ActivityViewSet, basename='activities')
 
 urlpatterns = [ 
     path('conventions/me', ConventionsWithMeIncluded.as_view(), name='conventionsWithMeIncluded'),
-    path('upload/signature', UploadSignature.as_view(), name='uploadSignature')
+    path('upload/signature', UploadSignature.as_view(), name='uploadSignature'),
+    path('search', ConventionsList.as_view(), name='conventionsList'),
 ]
 
 urlpatterns += router.urls

@@ -32,6 +32,7 @@ function Home() {
           <Col md={9}>
             <Switch>
               <Route path="/conventions" component={Convention} />
+              <Route path="/search/:keyword" component={Convention} />
               <Route path="/activities" component={Activity} />
               <Route path="/profile" component={Profile} />
               <Route path="/deadline" component={Deadline} />
