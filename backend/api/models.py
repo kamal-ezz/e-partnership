@@ -21,6 +21,9 @@ class Convention(models.Model):
     
     etat = models.CharField(choices=Etat.choices, default=Etat.EN_COURS, max_length=20)
 
+    #class Meta:
+    #    ordering = ["-created"]
+
     def __str__(self):
         return self.titre
 
@@ -48,9 +51,10 @@ class Activity(models.Model):
     class Type(models.TextChoices):
         CREATION = 'creation'
         SIGNING = 'signing'
+        MODIFICATION = 'modification'
     type = models.CharField(choices=Type.choices, default=Type.CREATION, max_length=20)
     date = DateTimeField(verbose_name = 'activity date',auto_now_add=True)
-
+    
     def __str__(self):
         return self.date
 

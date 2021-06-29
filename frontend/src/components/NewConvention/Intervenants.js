@@ -89,6 +89,9 @@ function Intervenants() {
 
       setIntervenants([...intervenants, serializedData]);
       setFormData([...formData, data]);
+
+      setEmail("");
+      setSign(null);
       //setFormData(data);
       //console.log(location.state.articles);
     }

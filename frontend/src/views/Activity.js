@@ -18,13 +18,15 @@ function Activity() {
       };
 
       try {
-        const { data } = await axios.get(API_URL + "/api/activities", config);
+        const { data } = await axios.get(API_URL + "/api/activities/", config);
         console.log(data);
-        //setConventions(data);
+        setActivities(data);
       } catch (err) {
         console.log(err);
       }
     };
+
+    fetchActivities();
   }, [API_URL, token]);
 
   return (
@@ -40,13 +42,27 @@ function Activity() {
   </Alert>*/}
 
       {activities.length > 0 ? (
-        activities.map((activity, index) => (
-          <div key={index}>
-            <Badge pill variant="info" className="p-2 mt-4">
-              {activity.date}
-            </Badge>
+        <Badge
+          pill
+          variant="info"
+          className="px-3 py-2 mt-4"
+          style={{ fontSize: 15 }}
+        >
+          {activities[0].date.split("T")[0]}
+        </Badge>
+      ) : (
+        ""
+      )}
+
+      {activities.length > 0 ? (
+        activities.map((activity) => (
+          <div key={activity.id}>
             <Alert variant="warning" className="mt-4 w-75">
-              {activity.type}
+              {activity.type === "creation"
+                ? `${activity.date
+                    .split("T")[1]
+                    .slice(0, 5)} Vous avez créer une convention`
+                : ""}
             </Alert>
           </div>
         ))

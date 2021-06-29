@@ -40,6 +40,7 @@ function NewConvention() {
     try {
       const ins = await axios.get(API_URL + "/auth/users/me/", config);
       const institution_source = ins.data.institution;
+      const myId = ins.data.id;
 
       const payload = {
         titre: title,
@@ -53,6 +54,15 @@ function NewConvention() {
       const { data } = await axios.post(
         API_URL + "/api/conventions/",
         payload,
+        config
+      );
+
+      const activity = await axios.post(
+        API_URL + "/api/activities/",
+        {
+          user: myId,
+          type: "creation",
+        },
         config
       );
 

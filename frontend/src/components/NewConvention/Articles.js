@@ -72,6 +72,9 @@ function Articles() {
 
       setArticles([...articles, serializedData]);
 
+      setTitle("");
+      setContent("");
+
       /*const container = document.querySelector('#c')
       const alert = document.createElement("div")
       alert.innetHTML = `

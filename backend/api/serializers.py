@@ -20,6 +20,7 @@ class IntervenantSerializer(serializers.ModelSerializer):
         fields = ('id','email', 'convention', 'signature', )
         model = Intervenant
 
+
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('id','user', 'type', 'date', )
