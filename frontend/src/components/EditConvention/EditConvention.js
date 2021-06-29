@@ -34,15 +34,15 @@ function EditConvention({ match }) {
         setInstitution(data.institution_b);
         setTitle(data.titre);
         setContext(data.contenu);
-        setDateDebut(data.date_debut);
-        setDateFin(data.date_fin);
+        setDateDebut(new Date(data.date_debut));
+        setDateFin(new Date(data.date_fin));
       } catch (err) {
         console.log(err);
       }
     };
 
     fetch();
-  }, [config, conventionId]);
+  }, [conventionId]);
 
   function join(t, s) {
     function format(m) {
@@ -59,6 +59,7 @@ function EditConvention({ match }) {
     try {
       const ins = await axios.get(API_URL + "/auth/users/me/", config);
       const institution_source = ins.data.institution;
+      const myId = ins.data.id;
 
       const payload = {
         titre: title,
@@ -69,14 +70,23 @@ function EditConvention({ match }) {
         date_fin: join(dateFin, "-"),
       };
 
-      const { data } = await axios.post(
-        API_URL + "/api/conventions/",
+      const { data } = await axios.put(
+        API_URL + `/api/conventions/${conventionId}/`,
         payload,
         config
       );
 
+      const activity = await axios.post(
+        API_URL + "/api/activities/",
+        {
+          user: myId,
+          type: "modification",
+        },
+        config
+      );
+
       history.push({
-        pathname: "/new/articles",
+        pathname: `/edit/articles/${conventionId}`,
         state: {
           id: data.id,
           institution,

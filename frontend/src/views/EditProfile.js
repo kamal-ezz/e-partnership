@@ -45,7 +45,7 @@ function EditProfile() {
     };
 
     fetchProfile();
-  }, [API_URL, token, config]);
+  }, [API_URL, token]);
 
   const submitHandler = async (e) => {
     e.preventDefault();

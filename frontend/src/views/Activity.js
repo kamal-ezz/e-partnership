@@ -19,7 +19,7 @@ function Activity() {
 
       try {
         const { data } = await axios.get(API_URL + "/api/activities/", config);
-        console.log(data);
+        //console.log(data);
         setActivities(data);
       } catch (err) {
         console.log(err);
@@ -62,6 +62,10 @@ function Activity() {
                 ? `${activity.date
                     .split("T")[1]
                     .slice(0, 5)} Vous avez créer une convention`
+                : activity.type === "modification"
+                ? `${activity.date
+                    .split("T")[1]
+                    .slice(0, 5)} Vous avez modifier une convention`
                 : ""}
             </Alert>
           </div>

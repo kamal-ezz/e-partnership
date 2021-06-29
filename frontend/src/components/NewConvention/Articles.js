@@ -6,6 +6,7 @@ import axios from "axios";
 import { useStoreState } from "easy-peasy";
 
 function Articles() {
+  const conventionId = location.state.id;
   const history = useHistory();
   const location = useLocation();
   const [title, setTitle] = useState("");
@@ -85,6 +86,10 @@ function Articles() {
       container.appendChild(alert)
       */
     }
+  };
+
+  const deleteArticle = async (id) => {
+    setArticles(articles.filter((article) => article.id == id));
   };
 
   return (
