@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, ListGroup } from "react-bootstrap";
+import { Container, Row, Col, ListGroup, Button } from "react-bootstrap";
 import axios from "axios";
 import { useStoreState } from "easy-peasy";
+import { useHistory } from "react-router-dom";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 function ConventionDetails({ match }) {
   const conventionId = match.params.id;
+  const history = useHistory();
   const [institution, setInstitution] = useState("");
   const [title, setTitle] = useState("");
   const [context, setContext] = useState("");
@@ -12,7 +16,6 @@ function ConventionDetails({ match }) {
   const [dateFin, setDateFin] = useState("");
   const [articles, setArticles] = useState([]);
   const [intervenants, setIntervenants] = useState([]);
-
   const API_URL = "http://localhost:8000";
   const token = useStoreState((state) => state.userToken);
   const config = {
@@ -20,6 +23,22 @@ function ConventionDetails({ match }) {
       "Content-Type": "application/json",
       Authorization: `Token ${token.auth_token}`,
     },
+  };
+
+  const back = (e) => {
+    history.push("/conventions");
+  };
+
+  const download = (e) => {
+    e.preventDefault();
+    const input = document.getElementById("divToPrint");
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      pdf.addImage(imgData, "JPEG", 0, 0);
+      // pdf.output('dataurlnewwindow');
+      pdf.save(`convention_${conventionId}.pdf`);
+    });
   };
 
   useEffect(() => {
@@ -73,7 +92,19 @@ function ConventionDetails({ match }) {
 
   return (
     <Container>
-      <Row>
+      <Row
+        className="d-flex justify-content-between mt-3"
+        style={{ width: "80%" }}
+      >
+        <Button variant="primary" onClick={back}>
+          Retour
+        </Button>
+        <Button variant="info" onClick={download}>
+          Télécharger
+        </Button>
+      </Row>
+
+      <Row className="mt-3" id="divToPrint">
         <ListGroup variant="flush" style={{ width: "80%" }}>
           <ListGroup.Item>
             <h5>Context</h5>

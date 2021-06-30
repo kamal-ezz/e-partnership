@@ -6,9 +6,9 @@ import axios from "axios";
 import { useStoreState } from "easy-peasy";
 
 function Articles() {
-  const conventionId = location.state.id;
   const history = useHistory();
   const location = useLocation();
+  const conventionId = location.state.id;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [articles, setArticles] = useState([]);
@@ -40,7 +40,7 @@ function Articles() {
       history.push({
         pathname: "/new/intervenants",
         state: {
-          id: location.state.id,
+          conventionId,
           institution: location.state.institution,
           title: location.state.title,
           context: location.state.context,

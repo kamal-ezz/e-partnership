@@ -14,7 +14,6 @@ import Membres from "../views/Membres";
 import EditArticles from "../components/EditConvention/EditArticles";
 import EditConvention from "../components/EditConvention/EditConvention";
 import EditIntervenants from "../components/EditConvention/EditIntervenants";
-import EditFinal from "../components/EditConvention/EditFinal";
 
 import EditProfile from "./EditProfile";
 import { useStoreState } from "easy-peasy";
@@ -43,7 +42,7 @@ function Home() {
               <Route path="/new/articles" component={Articles} />
               <Route path="/new-convention" component={NewConvention} />
               <Route path="/new/intervenants" component={Intervenants} />
-              <Route path="/new/final" component={Final} />
+              <Route path="/final" component={Final} />
 
               <Route path="/edit/articles/:id" component={EditArticles} />
               <Route path="/edit-convention/:id" component={EditConvention} />
@@ -51,7 +50,7 @@ function Home() {
                 path="/edit/intervenants/:id"
                 component={EditIntervenants}
               />
-              <Route path="/edit/final" component={EditFinal} />
+
               <Route path="/edit/profile" component={EditProfile} />
             </Switch>
           </Col>

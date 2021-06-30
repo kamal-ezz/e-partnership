@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Table, Badge } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { useStoreState } from "easy-peasy";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import jsPDF from "jspdf";
 
 function Convention({ match }) {
   const [conventions, setConventions] = useState([
@@ -69,24 +67,6 @@ function Convention({ match }) {
     fetchConventions();
   }, [API_URL, token]);
 
-  const download = () => {
-    /*let doc = new jsPDF("p", "pt");
-    doc.setFontType("bold");
-    doc.text(20, 20, context.title);
-    doc.setFontType("normal");
-    doc.text(20, 30, context.context);
-
-    articles.forEach((article, index) => {
-      let i = index + 40;
-      doc.setFontType("bold");
-      doc.text(20, i, article.title);
-      doc.setFontType("noraml");
-      doc.text(20, i + 20, article.content);
-    });
-
-    doc.save("convention.pdf");*/
-  };
-
   const formatDate = (date) => {
     const a = date.split("T")[0];
     const b = date.split("T")[1].slice(0, 5);
@@ -125,11 +105,6 @@ function Convention({ match }) {
             <td>{convention.institution_b}</td>
             <td>{formatDate(convention.dernier_modification)}</td>
             <td>
-              <FontAwesomeIcon
-                onClick={download}
-                icon={faDownload}
-                style={{ cursor: "pointer" }}
-              />
               <Link to={`/edit-convention/${convention.id}`}>
                 <FontAwesomeIcon
                   icon={faEdit}

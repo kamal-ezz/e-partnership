@@ -45,7 +45,7 @@ function EditIntervenants({ match }) {
     }
 
     history.push({
-      pathname: "/edit/final",
+      pathname: "/final",
       state: {
         id: location.state.id,
         institution: location.state.institution,

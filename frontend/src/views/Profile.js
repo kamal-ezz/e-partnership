@@ -42,7 +42,14 @@ function Profile() {
             <Card.Body>
               <div className="d-flex flex-column align-items-center text-center">
                 <Image
-                  src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                  src={
+                    profile.photo
+                      ? profile.photo.replace(
+                          "http://localhost:8000/public/",
+                          "/"
+                        )
+                      : "https://bootdey.com/img/Content/avatar/avatar7.png"
+                  }
                   alt="User"
                   roundedCircle
                   width={150}

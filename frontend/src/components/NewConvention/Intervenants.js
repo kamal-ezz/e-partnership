@@ -8,6 +8,7 @@ import { useStoreState } from "easy-peasy";
 function Intervenants() {
   const history = useHistory();
   const location = useLocation();
+  const conventionId = location.state.conventionId;
   const [email, setEmail] = useState("");
   const [sign, setSign] = useState(null);
   const [intervenants, setIntervenants] = useState([]);
@@ -23,14 +24,8 @@ function Intervenants() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
+    console.log(formData);
     try {
-      /*const { data } = await axios.post(
-        API_URL + "/api/intervenants/",
-        intervenants,
-        config
-      );*/
-
       let fData;
       for (fData of formData) {
         const { data } = await axios.post(
@@ -39,14 +34,27 @@ function Intervenants() {
           config
         );
       }
+
+      if (formData.some((intervenant) => intervenant.signature)) {
+        const resp = await axios.get(
+          API_URL + "/api/conventions/" + conventionId,
+          config
+        );
+
+        const res = await axios.put(
+          API_URL + "/api/conventions/" + conventionId + "/",
+          { ...resp.data, etat: "signé" },
+          config
+        );
+      }
     } catch (err) {
       console.log(err);
     }
 
     history.push({
-      pathname: "/new/final",
+      pathname: "/final",
       state: {
-        id: location.state.id,
+        conventionId,
         institution: location.state.institution,
         title: location.state.title,
         context: location.state.context,
@@ -64,36 +72,30 @@ function Intervenants() {
     setSign(e.target.files[0]);
   };
 
-  const addNewIntervenant = (e) => {
+  const addNewIntervenant = async (e) => {
     e.preventDefault();
+
     if (email === "" || email === null) {
       alert("Il faut d'abord remplir les champs manquants");
     } else {
       const form = document.querySelector("#r");
       let data = new FormData(form);
 
-      data.append("convention", location.state.id);
+      data.append("convention", conventionId);
 
       if (sign) {
         data.append("signature", sign, sign.name);
       }
-
       let serializedData = {};
 
       for (let [key, value] of data) {
         serializedData[key] = value;
       }
 
-      //serializedData.convention = location.state.id;
-      //serializedData.signature = sign;
-
       setIntervenants([...intervenants, serializedData]);
       setFormData([...formData, data]);
-
       setEmail("");
       setSign(null);
-      //setFormData(data);
-      //console.log(location.state.articles);
     }
   };
 
